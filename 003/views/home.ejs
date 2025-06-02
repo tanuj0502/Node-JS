@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+    <style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
+
+h1 {
+    font-size: 2.8rem;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 2rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+}
+
+form {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+input[type="text"], input[type="date"], select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 2px solid #2575fc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #e0e7ff;
+    transition: 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #6a11cb;
+    box-shadow: 0 0 8px rgba(106, 17, 203, 0.4);
+}
+
+button[type="submit"] {
+   width: 100%;
+  padding: 12px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    background: #6a11cb;
+     transform: translateY(-2px);
+}
+
+.data-table {
+    width: 100%;
+    max-width: 800px;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.data-table th, .data-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 2px solid #c3dafe;
+}
+
+.data-table th {
+    background: #2575fc;
+    color: white;
+    font-weight: bold;
+}
+
+.data-table tr:nth-child(even) {
+    background: #f3f4f6;
+}
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.action-buttons button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.action-buttons a:nth-child(1) button {
+  background: #ef4444;
+  color: white;
+}
+
+.action-buttons a:nth-child(1) button:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+.action-buttons a:nth-child(2) button {
+  background: #10b981;
+  color: white;
+}
+
+.action-buttons a:nth-child(2) button:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}
+
+    </style>
+</head>
+<body>
+    <h1>Todo List</h1>
+
+    <form action="/add" method="post">
+        <table class="form-table">
+            <tr><td><input type="text" name="task_title" placeholder="Task Title" required></td></tr>
+            <tr><td><input type="text" name="task_desc" placeholder="Task Description" required></td></tr>
+            <tr>
+                <td>
+                    <select name="status" required>
+                        <option value="">Select Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </td>
+            </tr>
+            <tr><td><input type="date" name="deadline" required></td></tr>
+            <tr><td><button type="submit">Add Task</button></td></tr>
+        </table>
+    </form>
+
+    <h2>Tasks Table</h2>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Task Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Deadline</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach((item, index) => { %>
+            <tr>
+                <td><%= item.task_title %></td>
+                <td><%= item.task_desc %></td>
+                <td><%= item.status %></td>
+                <td><%= item.deadline %></td>
+                <td>
+                    <div class="action-buttons">
+                        <a href="/edit/<%= index %>"><button>Edit</button></a>
+                        <a href="/delete/<%= index %>"><button>Delete</button></a>
+                    </div>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>
