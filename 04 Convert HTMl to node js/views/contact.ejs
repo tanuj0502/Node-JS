@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #e2e8f0;
+            background-color: #1a202c;
+        }
+
+        nav {
+            background: linear-gradient(135deg, #4a5568, #805ad5);
+            padding: 1.3rem 2rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #fff;
+            font-size: 1.7rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .contact-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: linear-gradient(180deg, rgba(74, 85, 104, 0.1), rgba(128, 90, 213, 0.1));
+        }
+
+        .contact-section h1 {
+            font-size: 3rem;
+            color: #fff;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #2d3748;
+            border-radius: 8px;
+        }
+
+        .contact-form label {
+            font-size: 1rem;
+            color: #cbd5e0;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 6px;
+            background: #4a5568;
+            color: #fff;
+        }
+
+        .contact-form button {
+            background: #805ad5;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .contact-info {
+            text-align: center;
+            margin: 2rem auto;
+        }
+
+        .contact-info p {
+            font-size: 1.2rem;
+            color: #cbd5e0;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">TechWorld</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="contact-section">
+        <h1>Contact Us</h1>
+        <p>We're here to help! Reach out to us with your questions, feedback, or project inquiries, and let's start a conversation.</p>
+        
+        <div class="contact-form">
+            <form action="/contact" method="POST">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" required>
+
+                <label for="message">Your Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+        
+        <div class="contact-info">
+            <p>Email: support@mysite.com</p>
+            <p>Phone: +1 (234) 567-890</p>
+            <p>Address: 123 Innovation Drive, Tech City, TC 12345</p>
+        </div>
+    </section>
+</body>
+</html>
