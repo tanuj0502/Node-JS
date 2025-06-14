@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #101820;                   
+  color: #f3f5f7;                         
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 3vw + 1rem, 3rem);
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  color: #ffce3e;
+}
+
+h1 span {
+  color: #39c5ff;                          
+}
+
+.form-container {
+  background: #16202e;
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 550px;
+  position: relative;
+  overflow: hidden;
+}
+
+.glow::before,
+.glow::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    #ff007a,
+    #39c5ff,
+    #ffce3e,
+    #ff007a 360deg
+  );
+  background-size: 400%;
+  border-radius: inherit;
+  animation: rotateGlow 6s linear infinite;
+}
+
+.glow::after {
+  filter: blur(25px);
+}
+
+@keyframes rotateGlow {
+  0%   {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+
+form table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+form td {
+  padding: 0.75rem 0;
+}
+
+label {
+  font-weight: 600;
+  color: #e6e8eb;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 2px solid #263143;
+  border-radius: 8px;
+  background: #0f141d;
+  color: #eaf0f6;
+  font-size: 1rem;
+  transition: border-color 0.25s ease, outline 0.25s ease;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #39c5ff;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.file-input-container {
+  position: relative;
+  width: max-content;
+}
+
+.file-input-button {
+  background: #263143;
+  color: #e6e8eb;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.file-input-container:hover .file-input-button {
+  background: #1c2534;
+}
+
+input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.submit-row {
+  text-align: center;
+  padding-top: 1.25rem;
+}
+
+button[type="submit"],
+.action-buttons button {
+  all: unset;
+  cursor: pointer;
+  padding: 0.6rem 1.25rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+button[type="submit"] {
+  background: linear-gradient(135deg, #39c5ff, #ff007a);
+  color: #fff;
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.books-container {
+  width: 100%;
+  max-width: 1000px;
+}
+
+.books-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #16202e;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.books-table th,
+.books-table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+}
+
+.books-table thead {
+  background: #263143;
+}
+
+.books-table th {
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.4px;
+  color: #ffce3e;
+}
+
+.books-table tbody tr {
+  border-bottom: 1px solid #263143;
+}
+
+.books-table tbody tr:nth-of-type(odd) {
+  background: #192331;
+}
+
+.books-table img {
+  width: 70px;
+  height: auto;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-btn   { background: #0f9d58; color: #fff; }
+.delete-btn { background: #c62828; color: #fff; }
+
+.action-buttons button:hover {
+  transform: translateY(-2px);
+}
+
+.empty-message {
+  background: #16202e;
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #7e8ba5;
+}
+
+.empty-message i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #39c5ff;
+}
+
+.empty-message h3 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #ffce3e;
+}
+
+@media (max-width: 700px) {
+  form table,
+  .books-table,
+  .books-table thead {
+    display: block;
+    width: 100%;
+  }
+
+  form tr {
+    display: flex;
+    flex-direction: column;
+  }
+
+  form td {
+    padding: 0.5rem 0;
+  }
+
+  .books-table thead {
+    display: none;          
+  }
+
+  .books-table tbody tr {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0.5rem 1rem;
+    padding: 1rem;
+  }
+
+  .books-table tbody td {
+    border: none;
+    padding: 0;
+  }
+
+  .books-table tbody td:nth-child(6) {   
+    grid-column: 1 / -1;
+  }
+
+  .books-table img {
+    width: 100px;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <h1><span>Book</span> Store</h1>
+    <div class="form-container glow">
+      <form action="/submit-book" method="post" enctype="multipart/form-data">
+        <table>
+          <tr>
+            <td><label for="title">Title</label></td>
+            <td>
+              <input
+                type="text"
+                name="title"
+                id="title"
+                placeholder="Enter book title"
+                required
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td><label for="author">Author</label></td>
+            <td>
+              <input
+                type="text"
+                name="author"
+                id="author"
+                placeholder="Author's name"
+                required
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td><label for="price">Price</label></td>
+            <td>
+              <input
+                type="number"
+                name="price"
+                id="price"
+                placeholder=""
+            
+                min="0"
+                required
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td><label for="description">Description</label></td>
+            <td>
+              <textarea
+                name="description"
+                id="description"
+                placeholder="Book description..."
+                required
+              ></textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td><label for="image">Cover Image</label></td>
+            <td>
+              <div class="file-input-container">
+                <div class="file-input-button">
+                  <i class="fas fa-image"></i> Choose Cover Image
+                </div>
+                <input type="file" name="image" id="image" accept="image/*" required />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="submit-row">
+              <button type="submit">
+                <i class="fas fa-plus"></i> Add Book
+              </button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+
+    <div class="books-container">
+      <% if (showBook && showBook.length > 0) { %>
+        <table class="books-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Price</th>
+              <th>Description</th>
+              <th>Cover</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% showBook.forEach((books,id)=>{ %>
+            <tr>
+              <td><strong><%= books.title %></strong></td>
+              <td><%= books.author %></td>
+              <td>$<%= books.price.toFixed(2) %></td>
+              <td><%= books.description.length > 30 ? books.description.substring(0, 30) + '...' : books.description %></td>
+              <td>
+                <img
+                  src="<%= books.image %>"
+                  alt="<%= books.title %> cover"
+                />
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <a href="/editBook/<%= books.id %>">
+                    <button type="button" class="edit-btn">
+                      <i class="fas fa-edit"></i> Edit
+                    </button>
+                  </a>
+                  <a href="/deleteBook/?bookId=<%= books._id %>">
+                    <button type="button" class="delete-btn">
+                      <i class="fas fa-trash"></i> Delete
+                    </button>
+                  </a>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <div class="empty-message">
+          <i class="fas fa-book-open"></i>
+          <h3>Your Library is Empty</h3>
+          <p>Add your first book to begin your collection</p>
+        </div>
+      <% } %>
+    </div>
+  </body>
+</html>

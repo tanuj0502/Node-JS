@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Book</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+
+:root {
+  --blk:          #060708;   
+  --grid:         #0d0f11;        
+  --phosphor:     #25ff6b;        
+  --phosphor-dim: #159b3f;
+  --white:        #e9ffe9;
+  --shadow:       rgba(0, 255, 128, 0.12);
+  --radius:       .6rem;
+  --speed:        600ms;
+  --mono:         "JetBrains Mono", "Courier New", monospace;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--mono);
+  background: var(--blk);
+  color: var(--white);
+  min-height: 100vh;
+  padding: clamp(1rem, 4vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-image:
+    linear-gradient(135deg, var(--grid) 25%, transparent 25%),
+    linear-gradient(225deg, var(--grid) 25%, transparent 25%),
+    linear-gradient(45deg,  var(--grid) 25%, transparent 25%),
+    linear-gradient(315deg, var(--grid) 25%, transparent 25%);
+  background-size: 4px 4px;
+  background-position: 0 0, 0 2px, 2px 2px, 2px 0px;
+}
+
+h1 {
+  text-align: center;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  color: var(--phosphor);
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: .15em;
+  position: relative;
+}
+
+h1::after {
+  content: "_";
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+.form-container {
+  width: 100%;
+  max-width: 720px;
+  background: rgba(13, 15, 17, 0.92);
+  backdrop-filter: blur(6px);
+  border: 2px solid var(--phosphor-dim);
+  border-radius: var(--radius);
+  padding: clamp(1.8rem, 3vw, 2.5rem);
+  box-shadow: 0 0 12px var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.form-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 2px,
+    rgba(0,0,0,0.25) 2px 4px
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: scroll var(--speed) linear infinite;
+}
+@keyframes scroll { to { background-position-y: 4px; } }
+
+table { width: 100%; border-collapse: collapse; }
+td    { padding-block: 1rem; }
+
+label {
+  color: var(--phosphor);
+  font-size: .9rem;
+  letter-spacing: .07em;
+  margin-bottom: .4rem;
+  display: block;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  padding: .65rem .9rem;
+  background: #0c1411;
+  color: var(--white);
+  border: 1px solid var(--phosphor-dim);
+  border-radius: var(--radius);
+  font-size: .95rem;
+  transition: border-color .2s, box-shadow .2s;
+}
+textarea { resize: vertical; min-height: 110px; }
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--phosphor);
+  box-shadow: 0 0 6px var(--phosphor);
+}
+
+.file-input-container { position: relative; }
+
+.file-input-button {
+  background: var(--phosphor-dim);
+  color: #061309;
+  padding: .7rem 1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: inline-flex;
+  gap: .6rem;
+  align-items: center;
+  transition: opacity .2s;
+}
+.file-input-button:hover { opacity: .85; }
+
+#image { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+.current-image {
+  margin-top: .7rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.current-image img {
+  width: 85px;
+  height: 110px;
+  object-fit: cover;
+  border: 1px solid var(--phosphor-dim);
+  border-radius: .4rem;
+  filter: grayscale(.2);
+  transition: transform .2s;
+}
+.current-image img:hover { transform: scale(1.08); }
+.current-image span { color: var(--text-muted); font-size: .8rem; }
+button {
+  all: unset;
+  cursor: pointer;
+  background: var(--phosphor);
+  color: #061309;
+  padding: .85rem 2.2rem;
+  border-radius: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  display: inline-flex;
+  gap: .6rem;
+  align-items: center;
+  transition: transform .2s, box-shadow .2s, filter .2s;
+  box-shadow: 0 0 10px var(--shadow);
+}
+button:hover  { transform: translateY(-3px); filter: brightness(1.1); }
+button:active { transform: translateY(0); }
+
+button i { font-size: 1rem; }
+
+@media (max-width: 640px) {
+  td { display: block; width: 100%; padding-block: .9rem; }
+  button { width: 100%; justify-content: center; }
+}
+
+    </style>
+  </head>
+  <body>
+    <h1>Edit <span>Book</span></h1>
+    <div class="form-container glow">
+      <form action="/updateBook" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="<%= bookData._id %>" />
+        <table>
+          <tr>
+            <td><label for="title">Title</label></td>
+            <td>
+              <input
+                type="text"
+                name="title"
+                id="title"
+                placeholder="Enter book title"
+                value="<%= bookData.title %>"
+                required
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td><label for="author">Author</label></td>
+            <td>
+              <input
+                type="text"
+                name="author"
+                id="author"
+                placeholder="Author's name"
+                value="<%= bookData.author %>"
+                required
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td><label for="price">Price</label></td>
+            <td>
+              <input
+                type="number"
+                name="price"
+                id="price"
+                placeholder="0.00"
+                step="0.01"
+                min="0"
+                value="<%= bookData.price %>"
+                required
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td><label for="description">Description</label></td>
+            <td>
+              <textarea
+                name="description"
+                id="description"
+                placeholder="Book description..."
+                required
+              ><%= bookData.description %></textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td><label for="image">Cover Image</label></td>
+            <td>
+              <div class="file-input-container">
+                <div class="file-input-button">
+                  <i class="fas fa-image"></i> Change Cover Image
+                </div>
+                <input type="file" name="image" id="image" accept="image/*" />
+              </div>
+              <div class="current-image">
+                <img src="<%= bookData.image %>" alt="Current cover" />
+                <span>Current cover image</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="submit-row">
+              <button type="submit">
+                <i class="fas fa-save"></i> Update Book
+              </button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </body>
+</html>
