@@ -75,14 +75,13 @@ app.post("/updateBook", upload, async (req, res) => {
     console.log("bookData Updated successfully");
     res.redirect("/");
   } catch (error) { 
-    console.log(error);
     res.redirect("/");
   }
 });
 
 app.listen(PORT,(error) =>{
   if (error) {
-    console.log("server is connected");
+    console.log("server is not connected");
     return;
   }
   connection();
